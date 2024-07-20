@@ -22,7 +22,7 @@ jobs:
     - name: Run PHP files
       run: |
         php -v  # Verify PHP version
-        php your-script.php  # Replace with your PHP script file names
+        php index.php  # Replace with your PHP script file names
 
     - name: Deploy to GitHub Pages
       if: success()
