@@ -16,7 +16,8 @@ jobs:
     - name: Set up PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.3.9'  # Use the latest PHP version
+        php-version: '8.1'  # Use the latest PHP version
+        tools: php  # Only set up PHP, no Composer
 
     - name: Run PHP files
       run: |
@@ -28,5 +29,6 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_branch: gh-pages  # Branch to deploy to
         publish_dir: ./  # Replace with the directory you want to deploy
 
