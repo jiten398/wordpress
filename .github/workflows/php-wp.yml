@@ -1,4 +1,4 @@
-name: PHP Deploy to GitHub Pages
+name: Deploy WordPress
 
 on:
   push:
@@ -6,23 +6,23 @@ on:
       - main  # Change this to your default branch if it's different
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Set up PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '8.1'  # Use the latest PHP version
-        tools: php  # Only set up PHP, no Composer
-
-    - name: Run PHP files
+    - name: Set up Docker
       run: |
-        php -v  # Verify PHP version
-        php index.php  # Replace with your PHP script file names
+        docker run --name wordpress -p 80:80 -d wordpress:latest
+        docker ps -a
+
+    - name: Wait for WordPress to be ready
+      run: sleep 30  # Adjust as necessary for WordPress to initialize
+
+    - name: Verify WordPress is running
+      run: curl -I http://localhost
 
     - name: Deploy to GitHub Pages
       if: success()
@@ -31,4 +31,3 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_branch: gh-pages  # Branch to deploy to
         publish_dir: ./  # Replace with the directory you want to deploy
-
